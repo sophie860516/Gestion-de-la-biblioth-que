@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].Membre
+(
+	[Id] INT NOT NULL PRIMARY KEY,
+	[Name] NVARCHAR(255) NOT NULL,
+    [Phone] NVARCHAR(50),
+	[Email] NVARCHAR(200) NOT NULL 
+)

@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[Retard]
+(
+	[Id] INT IDENTITY(1,1) PRIMARY KEY,
+	[IdPret] INT NOT NULL,
+	[IdLivre] INT NOT NULL,
+	[DateRetourAtt] DATETIME NOT NULL,
+	[DateRetourEff] DATETIME NOT NULL,
+	FOREIGN KEY(IdPret) REFERENCES Pret(Id),
+	FOREIGN KEY(IdLivre) REFERENCES Livres(Id)
+
+)

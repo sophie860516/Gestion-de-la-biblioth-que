@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Connexion]
+(
+	[Id] INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL,
+    Email NVARCHAR(200) UNIQUE NOT NULL,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    Role NVARCHAR(50) CHECK (Role IN ('Admin', 'Member')) NOT NULL
+)
