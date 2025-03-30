@@ -1,0 +1,12 @@
+.vs/
+ExempleEnvoiDonneesVue.csproj
+ExempleEnvoiDonneesVue.csproj.user
+ExempleEnvoiDonneesVue.sln
+Models/EmpruntMembre.cs
+Properties/
+SQLQuery1.sql
+bin/
+dbo.Table_pret.sql
+dbo.Tables_tous.sql
+obj/
+wwwroot/
