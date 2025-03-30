@@ -6,13 +6,19 @@ namespace ExempleEnvoiDonneesVue.Models
 {
     public class Livre
     {
-        [Required]
-        public int Id { get; set; }
-        [Required]
-        [StringLength(100)]
-        public string Titre { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string Categorie { get; set; }
+        
+        public int id { get; set; }
+        
+       
+        public string titre { get; set; }
+        
+        
+        public int idcateg { get; set; }
+
+        public int annee { get; set; }
+
+        public string nom_auteur {  get; set; }
+        public int exemplaires {  get; set; }
+
     }
 }

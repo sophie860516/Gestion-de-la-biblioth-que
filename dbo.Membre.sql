@@ -1,8 +1,9 @@
 ﻿CREATE TABLE [dbo].[Membre] (
-    [Id]    INT            NOT NULL,
-    [Name]  NVARCHAR (255) NOT NULL,
-    [Phone] NVARCHAR (50)  NULL,
-    [Email] NVARCHAR (200) UNIQUE NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+    [idm]      INT           IDENTITY (1, 1) NOT NULL,
+    [nom]      VARCHAR (100) NOT NULL,
+    [prenom]   VARCHAR (100) NOT NULL,
+    [courriel] VARCHAR (100) NOT NULL,
+    [daten]    DATE          NULL,
+    PRIMARY KEY CLUSTERED ([idm] ASC)
 );
 

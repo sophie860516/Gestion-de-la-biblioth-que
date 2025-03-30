@@ -27,25 +27,50 @@ namespace ExempleEnvoiDonneesVue.Controllers
             }
             return View(tablLivres);
         }
-        public IActionResult DetailsLivres()
-        {
-            Livre livre = new Livre { Id = 1, Titre = "test"};
-            // Envoi de l'objet Film à la vue
-            return View(livre);
-        }
         // GET: LivresController/Details/5
         public IActionResult Details(int id)
         {
-            return View();
-        }
+            Livre? livre = null;
 
-        private readonly string _connectionString;
+            using (SqlConnection connexion = new SqlConnection(chaineConnexion))
+            {
+                string requete = "SELECT * FROM films WHERE id = @Id";
+                var commande = new SqlCommand(requete, connexion);
+                commande.Parameters.AddWithValue("@Id", id);
+
+                connexion.Open();
+
+                using (var lecteur = commande.ExecuteReader())
+                {
+                    if (lecteur.Read())
+                    {
+                        livre = new Livre
+                        {
+                            id = lecteur.GetInt32("Id"),
+                            titre = lecteur.GetString("Titre"),
+                            annee = lecteur.GetInt32("annee"),
+                            nom_auteur = lecteur.GetString("nom_auteur"),
+                            idcateg = lecteur.GetInt32("idcateg"),
+
+                        };
+                    }
+                }
+            }
+
+            if (livre == null)
+            {
+                return NotFound();
+            }
+
+            return View(livre);
+        }
+       
 
 
         // GET: LivresController/Create
         public IActionResult Create()
         {
-            return View(new Livre());
+            return View();
         }
 
         // POST: LivresController/Create
@@ -57,33 +82,27 @@ namespace ExempleEnvoiDonneesVue.Controllers
             try
             {
 
-
-                if (ModelState.IsValid)
-                {
                     using (SqlConnection conn = new SqlConnection(chaineConnexion))
                     {
                     
                     
                             conn.Open();
-                            string query = "INSERT INTO Livres VALUES ( @Id,@Titre, @Categorie)";
+                            string query = "INSERT INTO Livres(titre,idcateg, annee, nom_auteur, exemplaires) VALUES (@Titre, @idcateg,@annee,@nom_auteur, @exemplaires)";
  
                             SqlCommand cmd = new SqlCommand(query, conn);
-                            //cmd.Parameters.AddWithValue("@Id", livre.Id);
-                            cmd.Parameters.AddWithValue("@Id", livre.Id);
-                            cmd.Parameters.AddWithValue("@Titre", livre.Titre);
-                            cmd.Parameters.AddWithValue("@Categorie", livre.Categorie);
+                            
+                            //cmd.Parameters.AddWithValue("@Id", livre.id);
+                            cmd.Parameters.AddWithValue("@Titre", livre.titre);
+                            cmd.Parameters.AddWithValue("@idcateg", livre.idcateg);
+                            cmd.Parameters.AddWithValue("@annee", livre.annee);
+                            cmd.Parameters.AddWithValue("@nom_auteur", livre.nom_auteur);
+                            cmd.Parameters.AddWithValue("@exemplaires", livre.exemplaires);
                             cmd.ExecuteNonQuery();
 
 
                     }
 
                     return RedirectToAction("Index"); // Redirect to the book list after adding
-                }
-                else
-                {
-                    // If model is invalid, return to the Create view with error messages
-                    return View(livre);
-                }
 
             }
 
@@ -114,9 +133,9 @@ namespace ExempleEnvoiDonneesVue.Controllers
                 {
                     livre = new Livre
                     {
-                        Id = (int)lecteur["Id"],
-                        Titre = lecteur["Titre"].ToString(),
-                        Categorie = lecteur["Categorie"].ToString()
+                        id = (int)lecteur["id"],
+                        titre = lecteur["titre"].ToString(),
+                        idcateg = (int)lecteur["idcateg"]
                     };
                 }
             }
@@ -129,27 +148,31 @@ namespace ExempleEnvoiDonneesVue.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Livre livre)
         {
-            if (id != livre.Id)
+            Console.WriteLine("test 0");
+            if (id != livre.id)
             {
+                Console.WriteLine("test 1");
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
                 using (SqlConnection conn = new SqlConnection(chaineConnexion))
                 {
                     conn.Open();
 
-                    string query = "UPDATE Livres SET Titre = @Titre, Categorie = @Categorie WHERE Id = @Id";
+                    string query = "UPDATE Livres SET Titre = @Titre, idcateg= @idcateg WHERE Id = @Id";
+                    Console.WriteLine("test ");
 
                     SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Titre", livre.Titre);
-                    cmd.Parameters.AddWithValue("@Categorie", livre.Categorie);
-                    cmd.Parameters.AddWithValue("@Id", livre.Id);
+                    cmd.Parameters.AddWithValue("@Id",id);
+                    cmd.Parameters.AddWithValue("@Titre", livre.titre);
+                    cmd.Parameters.AddWithValue("@idcateg", livre.idcateg);
+                    
 
                     // Execute the update query
                     int rowsAffected = cmd.ExecuteNonQuery();
-
+                    Console.WriteLine("Rows Affected: " + rowsAffected);
                     if (rowsAffected > 0)
                     {
                         // Successfully updated
@@ -160,10 +183,13 @@ namespace ExempleEnvoiDonneesVue.Controllers
                         // If no rows were updated, the record might not exist.
                         return NotFound();
                     }
+                    Console.WriteLine("fin");
                 }
             }
-
-            return View(livre);
+            catch{ 
+                return View(livre);
+            }
+            
         }
 
         // GET: LivresController/Delete/5
@@ -182,9 +208,9 @@ namespace ExempleEnvoiDonneesVue.Controllers
                 {
                     livre = new Livre
                     {
-                        Id = (int)lecteur["Id"],
-                        Titre = lecteur["Titre"].ToString(),
-                        Categorie = lecteur["Categorie"].ToString()
+                        id = (int)lecteur["Id"],
+                        titre = lecteur["Titre"].ToString(),
+                        idcateg = (int)lecteur["idcateg"]
                     };
                 }
             }

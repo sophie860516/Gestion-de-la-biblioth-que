@@ -26,7 +26,7 @@ namespace ExempleEnvoiDonneesVue
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Livre}/{action=Index}/{id?}");
+                pattern: "{controller=Membre}/{action=Index}/{id_livre?}");
             app.MapControllerRoute(
                 name: "book_Create",
                 pattern: "{controller=Livre}/{action=Create}/{id?}");

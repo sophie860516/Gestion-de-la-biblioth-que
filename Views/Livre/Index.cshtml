@@ -10,7 +10,9 @@
     <tr>
         <th>ID</th>
         <th>Titre</th>
-        <th>Categorie</th>
+        <th>Annee</th>
+        <th>Auteur</th>
+        <th>Id Catégorie</th>
 
     </tr>
     @for (int i=0; i < Model.Rows.Count; i++)
@@ -19,8 +21,11 @@
             <td>@Model.Rows[i][0]</td>
             <td>@Model.Rows[i][1]</td>
             <td>@Model.Rows[i][2]</td>
+            <td>@Model.Rows[i][3]</td>
+            <td>@Model.Rows[i][4]</td>
             <td>
                 <a href="@Url.Action("Edit","Livre", new {@id=Model.Rows[i][0]})">Modifier</a>
+                <a href="@Url.Action("Delete","Livre", new {@id=Model.Rows[i][0]})">Enlever</a>
             </td>
 
         </tr>
