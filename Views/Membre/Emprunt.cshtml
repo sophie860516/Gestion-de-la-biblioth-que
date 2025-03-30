@@ -1,0 +1,75 @@
+﻿@model ExempleEnvoiDonneesVue.Models.Emprunt
+
+@{
+    ViewData["Title"] = "Emprunt";
+}
+
+<h1>Emprunt</h1>
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<h4>Emprunt</h4>
+<hr />
+@{
+    Livre livre = null;
+
+    if (ViewData["Livre"] != null)
+    {
+        livre = ViewData["Livre"] as Livre;
+    }
+
+
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Emprunt" asp-controller="Membre" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="id_livre" class="control-label"></label>
+                <input asp-for="id_livre" class="form-control" readonly />
+                <span asp-validation-for="id_livre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @if (livre != null)
+                {
+                    <input id="livreTitre" value="@livre.titre" class="form-control" readonly />
+                }
+                else
+                {
+                    <input id="livreTitre" value="Livre non disponible" class="form-control" readonly />
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="id_membre" class="control-label"></label>
+                <input asp-for="id_membre" class="form-control" />
+                <span asp-validation-for="id_membre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="date_emprunt" class="control-label"></label>
+                <input asp-for="date_emprunt" type="date" class="form-control" />
+                <span asp-validation-for="date_emprunt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="date_retour" class="control-label"></label>
+                <input asp-for="date_retour" type="date"class="form-control" />
+                <span asp-validation-for="date_retour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

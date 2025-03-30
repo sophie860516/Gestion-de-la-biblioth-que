@@ -1,0 +1,38 @@
+﻿@model System.Data.DataTable
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table table-bordered table-striped">
+
+    <tr>
+        <th>ID</th>
+        <th>Titre</th>
+        <th>Annee</th>
+        <th>Auteur</th>
+        <th>Id Catégorie</th>
+
+    </tr>
+    @for (int i=0; i < Model.Rows.Count; i++)
+    {
+        <tr>
+            <td>@Model.Rows[i][0]</td>
+            <td>@Model.Rows[i][1]</td>
+            <td>@Model.Rows[i][2]</td>
+            <td>@Model.Rows[i][3]</td>
+            <td>@Model.Rows[i][4]</td>
+            <td>
+                <a asp-controller="Membre" asp-action="Emprunt" asp-route-id_livre="@Model.Rows[i][0]" class="btn btn-primary">
+                    Emprunter
+                </a>
+            </td>
+
+        </tr>
+
+
+    }
+
+
+</table>
